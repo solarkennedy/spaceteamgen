@@ -16,24 +16,24 @@ def weighted_choice(choices):
 
 
 def verb():
-    pass
+    return "No verbs yet"
 
 
 def achievement():
-    pass
+    return "No achievements yet"
 
 
 def off():
-    pass
+    return "No off commands yet"
 
 
 def on():
-    pass
+    return "No on commands yet"
 
 
 def mundane():
     actions = load_file('MundaneActions.txt')
-    action = random.choice(actions)
+    action = random.choice(actions).strip()
     verb, noun = action.split(',')
     return "%s %s!" % (verb, noun)
 
@@ -44,14 +44,14 @@ def load_file(filename):
 
 # List of tuples, (thing, weight)
 THINGS_TO_SAY = [
-    (verb, 10),
-    (achievement, 1),
-    (off, 2),
-    (on, 2),
+    (verb, 0),
+    (achievement, 0),
+    (off, 0),
+    (on, 0),
     (mundane, 1)
 ]
 
 
 if __name__ == '__main__':
     action = weighted_choice(THINGS_TO_SAY)
-    print action()
+    print(action())
