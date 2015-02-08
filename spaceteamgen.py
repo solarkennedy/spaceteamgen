@@ -24,22 +24,30 @@ def achievement():
 
 
 def off():
-    return "No off commands yet"
+    off_verb = random.choice(load_file('OffnVerbs.txt'))
+    noun = random.choice(load_nouns())
+    return "%s %s!" % (off_verb, noun)
 
 
 def on():
-    return "No on commands yet"
+    on_verb = random.choice(load_file('OnVerbs.txt'))
+    noun = random.choice(load_nouns())
+    return "%s %s!" % (on_verb, noun)
 
 
 def mundane():
     actions = load_file('MundaneActions.txt')
-    action = random.choice(actions).strip()
+    action = random.choice(actions)
     verb, noun = action.split(',')
     return "%s %s!" % (verb, noun)
 
 
 def load_file(filename):
-    return open(filename).readlines()
+    return map(str.strip, open(filename).readlines())
+
+
+def load_nouns():
+    return load_file('Nouns.txt')
 
 
 # List of tuples, (thing, weight)
@@ -47,8 +55,8 @@ THINGS_TO_SAY = [
     (verb, 0),
     (achievement, 0),
     (off, 0),
-    (on, 0),
-    (mundane, 1)
+    (on, 1),
+    (mundane, 0)
 ]
 
 

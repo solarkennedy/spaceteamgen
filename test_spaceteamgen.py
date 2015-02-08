@@ -1,4 +1,7 @@
 import mock
+
+import contextlib
+
 import spaceteamgen
 
 def test_weighted_choice():
@@ -17,11 +20,23 @@ def test_mundane():
 
 
 def test_on():
-    pass
+    on_verbs = ['Activate']
+    nouns = ['Thing']
+    with contextlib.nested(
+        mock.patch('spaceteamgen.load_file', autospec=True, return_value=on_verbs),
+        mock.patch('spaceteamgen.load_nouns', autospec=True, return_value=nouns)
+    ):
+        assert spaceteamgen.on() == 'Activate Thing!'
 
 
 def test_off():
-    pass
+    off_verbs = ['DeActivate']
+    nouns = ['Thing']
+    with contextlib.nested(
+        mock.patch('spaceteamgen.load_file', autospec=True, return_value=off_verbs),
+        mock.patch('spaceteamgen.load_nouns', autospec=True, return_value=nouns)
+    ):
+        assert spaceteamgen.off() == 'DeActivate Thing!'
 
 
 def test_achievement():
