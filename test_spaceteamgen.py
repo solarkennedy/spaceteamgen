@@ -15,7 +15,6 @@ def test_weighted_choice():
 def test_mundane():
     mundane_actions = ['Foo,Bar']
     with mock.patch('spaceteamgen.load_file', autospec=True, return_value=mundane_actions):
-        print mundane_actions
         assert spaceteamgen.mundane() == 'Foo Bar!'
 
 

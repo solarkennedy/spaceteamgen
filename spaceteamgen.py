@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import argparse
 import random
 
 
@@ -24,7 +25,7 @@ def achievement():
 
 
 def off():
-    off_verb = random.choice(load_file('OffnVerbs.txt'))
+    off_verb = random.choice(load_file('OffVerbs.txt'))
     noun = random.choice(load_nouns())
     return "%s %s!" % (off_verb, noun)
 
@@ -52,14 +53,27 @@ def load_nouns():
 
 # List of tuples, (thing, weight)
 THINGS_TO_SAY = [
-    (verb, 0),
-    (achievement, 0),
-    (off, 0),
+    (verb, 5),
+    (achievement, 3),
+    (off, 1),
     (on, 1),
-    (mundane, 0)
+    (mundane, 1)
 ]
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description='Prints a spaceteam-like command.')
+    parser.add_argument('action', nargs='?', default=False,
+                        choices=['verb', 'achievement', 'off', 'on', 'mundane'],
+                        help="optional type of command you want to print.")
+    return parser.parse_args()
+
+
 if __name__ == '__main__':
-    action = weighted_choice(THINGS_TO_SAY)
-    print(action())
+    args = parse_args()
+    if args.action:
+        # Seems dangerous?
+        print(locals()[args.action]())
+    else:
+        action = weighted_choice(THINGS_TO_SAY)
+        print(action())
