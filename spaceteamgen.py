@@ -1,6 +1,19 @@
 #!/usr/bin/env python
 import argparse
+import os
 import random
+import sys
+
+FILE = {
+    'offverbs': 'OffVerbs.txt',
+    'onverbs': 'OnVerbs.txt',
+    'mundaneactions': 'MundaneActions.txt',
+    'adjectivesbefore': 'AdjectivesBefore.txt',
+    'verbs': 'Verbs.txt',
+    'nouns': 'Nouns.txt',
+    'prefixparts': 'PrefixParts.txt',
+    'baseparts': 'BaseParts.txt',
+}
 
 
 def weighted_choice(choices):
@@ -23,19 +36,19 @@ def verb():
 
 
 def off():
-    off_verb = random.choice(load_file('OffVerbs.txt'))
+    off_verb = random.choice(load_file(FILE['offverbs']))
     noun = get_noun()
     return "%s %s!" % (off_verb, noun)
 
 
 def on():
-    on_verb = random.choice(load_file('OnVerbs.txt'))
+    on_verb = random.choice(load_file(FILE['onverbs']))
     noun = get_noun()
     return "%s %s!" % (on_verb, noun)
 
 
 def mundane():
-    actions = load_file('MundaneActions.txt')
+    actions = load_file(FILE['mundaneactions'])
     action = random.choice(actions)
     verb, noun = action.split(',')
     return "%s %s!" % (verb, noun)
@@ -57,13 +70,13 @@ def get_noun():
 
 
 def get_adjective():
-    return random.choice(load_file('AdjectivesBefore.txt'))
+    return random.choice(load_file(FILE['adjectivesbefore']))
 
 
 def get_part():
     adjective = get_adjective()
-    prefix = random.choice(load_file('PrefixParts.txt'))
-    base_part = random.choice(load_file('BaseParts.txt'))
+    prefix = random.choice(load_file(FILE['prefixparts']))
+    base_part = random.choice(load_file(FILE['baseparts']))
     return "%s %s%s" % (adjective, prefix, base_part)
 
 
@@ -82,11 +95,19 @@ def load_file(filename):
 
 
 def load_nouns():
-    return load_file('Nouns.txt')
+    return load_file(FILE['nouns'])
 
 
 def load_verbs():
-    return load_file('Verbs.txt')
+    return load_file(FILE['verbs'])
+
+
+def validate_files():
+    for f in FILE.values():
+        if os.path.isfile(f) is not True:
+            err = "%s is missing! Make sure this file is available.\n" % f
+            sys.stderr.write(err)
+            sys.exit(1)
 
 
 # List of tuples, (thing, weight)
@@ -111,6 +132,7 @@ def parse_args():
 
 if __name__ == '__main__':
     args = parse_args()
+    validate_files()
     if args.action:
         # Seems dangerous?
         print(locals()[args.action]())
