@@ -62,9 +62,11 @@ THINGS_TO_SAY = [
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='Prints a spaceteam-like command.')
+    parser = argparse.ArgumentParser(
+        description='Prints a spaceteam-like command.')
     parser.add_argument('action', nargs='?', default=False,
-                        choices=['verb', 'achievement', 'off', 'on', 'mundane'],
+                        choices=[
+                            'verb', 'achievement', 'off', 'on', 'mundane'],
                         help="optional type of command you want to print.")
     return parser.parse_args()
 

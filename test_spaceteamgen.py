@@ -23,8 +23,10 @@ def test_on():
     on_verbs = ['Activate']
     nouns = ['Thing']
     with contextlib.nested(
-        mock.patch('spaceteamgen.load_file', autospec=True, return_value=on_verbs),
-        mock.patch('spaceteamgen.load_nouns', autospec=True, return_value=nouns)
+        mock.patch('spaceteamgen.load_file',
+                   autospec=True, return_value=on_verbs),
+        mock.patch('spaceteamgen.load_nouns',
+                   autospec=True, return_value=nouns)
     ):
         assert spaceteamgen.on() == 'Activate Thing!'
 
@@ -32,7 +34,8 @@ def test_on():
 def test_off():
     off_verbs = ['DeActivate']
     nouns = ['Thing']
-    with mock.patch('spaceteamgen.load_file', autospec=True, return_value=off_verbs), mock.patch('spaceteamgen.load_nouns', autospec=True, return_value=nouns):
+    with mock.patch('spaceteamgen.load_file', autospec=True, return_value=off_verbs), \
+            mock.patch('spaceteamgen.load_nouns', autospec=True, return_value=nouns):
         assert spaceteamgen.off() == 'DeActivate Thing!'
 
 
