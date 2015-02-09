@@ -18,11 +18,8 @@ def weighted_choice(choices):
 
 def verb():
     verb = random.choice(load_verbs())
-    return "%s!" % (verb)
-
-
-def achievement():
-    return "No achievements yet"
+    part = get_part()
+    return "%s %s!" % (verb, part)
 
 
 def off():
@@ -44,9 +41,40 @@ def mundane():
     return "%s %s!" % (verb, noun)
 
 
+def setting():
+    """Returns a string to set a part to a certain value.
+    Like 'Set Psi-Condenser to 5!'
+    """
+    setting_verb = get_setting_verb()
+    part = get_part()
+    value = get_value()
+    return "%s %s to %s!" % (setting_verb, part, value)
+
+
 def get_noun():
     """Returns a fancy prefixed noun"""
-    random.choice(load_nouns())
+    return random.choice(load_nouns())
+
+
+def get_adjective():
+    return random.choice(load_file('AdjectivesBefore.txt'))
+
+
+def get_part():
+    adjective = get_adjective()
+    prefix = random.choice(load_file('PrefixParts.txt'))
+    base_part = random.choice(load_file('BaseParts.txt'))
+    return "%s %s%s" % (adjective, prefix, base_part)
+
+
+def get_setting_verb():
+    settings = ['Set', 'Increase', 'Decrease', 'Configure', 'Drop']
+    return random.choice(settings)
+
+
+def get_value():
+    values = ['Full Power', 'Maximum', '1', '2', '3', '4', '5']
+    return random.choice(values)
 
 
 def load_file(filename):
@@ -60,10 +88,11 @@ def load_nouns():
 def load_verbs():
     return load_file('Verbs.txt')
 
+
 # List of tuples, (thing, weight)
 THINGS_TO_SAY = [
     (verb, 5),
-    (achievement, 3),
+    (setting, 5),
     (off, 1),
     (on, 1),
     (mundane, 1)
@@ -73,9 +102,9 @@ THINGS_TO_SAY = [
 def parse_args():
     parser = argparse.ArgumentParser(
         description='Prints a spaceteam-like command.')
+    choices = [x[0].__name__ for x in THINGS_TO_SAY]
     parser.add_argument('action', nargs='?', default=False,
-                        choices=[
-                            'verb', 'achievement', 'off', 'on', 'mundane'],
+                        choices=choices,
                         help="optional type of command you want to print.")
     return parser.parse_args()
 

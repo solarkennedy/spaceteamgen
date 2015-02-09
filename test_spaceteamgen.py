@@ -39,12 +39,10 @@ def test_off():
         assert spaceteamgen.off() == 'DeActivate Thing!'
 
 
-def test_achievement():
-    pass
-
-
 def test_verb():
     verbs = ['do']
+    part = 'thing'
     with mock.patch('spaceteamgen.load_verbs',
-                    autospec=True, return_value=verbs):
-        assert spaceteamgen.verb() == 'do!'
+                    autospec=True, return_value=verbs), \
+        mock.patch('spaceteamgen.get_part', autospec=True, return_value=part):
+        assert spaceteamgen.verb() == 'do thing!'
