@@ -1,6 +1,5 @@
 import mock
 
-import contextlib
 
 import spaceteamgen
 
@@ -15,27 +14,28 @@ def test_weighted_choice():
 
 def test_mundane():
     mundane_actions = ['Foo,Bar']
-    with mock.patch('spaceteamgen.load_file', autospec=True, return_value=mundane_actions):
+    with mock.patch('spaceteamgen.load_file', autospec=True,
+                    return_value=mundane_actions):
         assert spaceteamgen.mundane() == 'Foo Bar!'
 
 
 def test_on():
     on_verbs = ['Activate']
-    nouns = ['Thing']
-    with contextlib.nested(
-        mock.patch('spaceteamgen.load_file',
-                   autospec=True, return_value=on_verbs),
-        mock.patch('spaceteamgen.load_nouns',
-                   autospec=True, return_value=nouns)
-    ):
+    noun = 'Thing'
+    with mock.patch('spaceteamgen.load_file',
+                    autospec=True, return_value=on_verbs), \
+        mock.patch('spaceteamgen.get_noun',
+                   autospec=True, return_value=noun):
         assert spaceteamgen.on() == 'Activate Thing!'
 
 
 def test_off():
     off_verbs = ['DeActivate']
-    nouns = ['Thing']
-    with mock.patch('spaceteamgen.load_file', autospec=True, return_value=off_verbs), \
-            mock.patch('spaceteamgen.load_nouns', autospec=True, return_value=nouns):
+    noun = 'Thing'
+    with mock.patch('spaceteamgen.load_file', autospec=True,
+                    return_value=off_verbs), \
+        mock.patch('spaceteamgen.get_noun', autospec=True,
+                   return_value=noun):
         assert spaceteamgen.off() == 'DeActivate Thing!'
 
 
@@ -44,4 +44,7 @@ def test_achievement():
 
 
 def test_verb():
-    pass
+    verbs = ['do']
+    with mock.patch('spaceteamgen.load_verbs',
+                    autospec=True, return_value=verbs):
+        assert spaceteamgen.verb() == 'do!'

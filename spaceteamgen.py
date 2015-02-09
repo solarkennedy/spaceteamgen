@@ -17,7 +17,8 @@ def weighted_choice(choices):
 
 
 def verb():
-    return "No verbs yet"
+    verb = random.choice(load_verbs())
+    return "%s!" % (verb)
 
 
 def achievement():
@@ -26,13 +27,13 @@ def achievement():
 
 def off():
     off_verb = random.choice(load_file('OffVerbs.txt'))
-    noun = random.choice(load_nouns())
+    noun = get_noun()
     return "%s %s!" % (off_verb, noun)
 
 
 def on():
     on_verb = random.choice(load_file('OnVerbs.txt'))
-    noun = random.choice(load_nouns())
+    noun = get_noun()
     return "%s %s!" % (on_verb, noun)
 
 
@@ -43,6 +44,11 @@ def mundane():
     return "%s %s!" % (verb, noun)
 
 
+def get_noun():
+    """Returns a fancy prefixed noun"""
+    random.choice(load_nouns())
+
+
 def load_file(filename):
     return map(str.strip, open(filename).readlines())
 
@@ -50,6 +56,9 @@ def load_file(filename):
 def load_nouns():
     return load_file('Nouns.txt')
 
+
+def load_verbs():
+    return load_file('Verbs.txt')
 
 # List of tuples, (thing, weight)
 THINGS_TO_SAY = [
