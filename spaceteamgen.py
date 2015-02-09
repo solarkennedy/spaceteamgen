@@ -11,9 +11,9 @@ def weighted_choice(choices):
     r = random.uniform(0, total)
     upto = 0
     for c, w in choices:
-       if upto + w > r:
-          return c
-       upto += w
+        if upto + w > r:
+            return c
+        upto += w
 
 
 def verb():

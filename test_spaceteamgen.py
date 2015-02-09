@@ -4,6 +4,7 @@ import contextlib
 
 import spaceteamgen
 
+
 def test_weighted_choice():
     """This isn't a very good test"""
     choices = [('test', 1), ('test2', 1)]
@@ -31,10 +32,7 @@ def test_on():
 def test_off():
     off_verbs = ['DeActivate']
     nouns = ['Thing']
-    with contextlib.nested(
-        mock.patch('spaceteamgen.load_file', autospec=True, return_value=off_verbs),
-        mock.patch('spaceteamgen.load_nouns', autospec=True, return_value=nouns)
-    ):
+    with mock.patch('spaceteamgen.load_file', autospec=True, return_value=off_verbs), mock.patch('spaceteamgen.load_nouns', autospec=True, return_value=nouns):
         assert spaceteamgen.off() == 'DeActivate Thing!'
 
 
