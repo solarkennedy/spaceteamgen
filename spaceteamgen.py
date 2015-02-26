@@ -13,6 +13,7 @@ FILE = {
     'nouns': 'Nouns.txt',
     'prefixparts': 'PrefixParts.txt',
     'baseparts': 'BaseParts.txt',
+    'singletons': 'Singletons.txt',
 }
 
 
@@ -36,19 +37,19 @@ def verb():
 
 
 def off():
-    off_verb = random.choice(load_file(FILE['offverbs']))
+    off_verb = random.choice(load_file('offverbs'))
     noun = get_noun()
     return "%s %s!" % (off_verb, noun)
 
 
 def on():
-    on_verb = random.choice(load_file(FILE['onverbs']))
+    on_verb = random.choice(load_file('onverbs'))
     noun = get_noun()
     return "%s %s!" % (on_verb, noun)
 
 
 def mundane():
-    actions = load_file(FILE['mundaneactions'])
+    actions = load_file('mundaneactions')
     action = random.choice(actions)
     verb, noun = action.split(',')
     return "%s %s!" % (verb, noun)
@@ -64,19 +65,27 @@ def setting():
     return "%s %s to %s!" % (setting_verb, part, value)
 
 
+def singleton():
+    """Returns a simple single line.
+    Like: Asteroid! (Everbody Flip)
+    """
+    singletons = load_file('singletons')
+    return random.choice(singletons)
+
+
 def get_noun():
     """Returns a fancy prefixed noun"""
     return random.choice(load_nouns())
 
 
 def get_adjective():
-    return random.choice(load_file(FILE['adjectivesbefore']))
+    return random.choice(load_file('adjectivesbefore'))
 
 
 def get_part():
     adjective = get_adjective()
-    prefix = random.choice(load_file(FILE['prefixparts']))
-    base_part = random.choice(load_file(FILE['baseparts']))
+    prefix = random.choice(load_file('prefixparts'))
+    base_part = random.choice(load_file('baseparts'))
     return "%s %s%s" % (adjective, prefix, base_part)
 
 
@@ -90,16 +99,17 @@ def get_value():
     return random.choice(values)
 
 
-def load_file(filename):
+def load_file(name):
+    filename = FILE[name]
     return map(str.strip, open(filename).readlines())
 
 
 def load_nouns():
-    return load_file(FILE['nouns'])
+    return load_file('nouns')
 
 
 def load_verbs():
-    return load_file(FILE['verbs'])
+    return load_file('verbs')
 
 
 def validate_files():
@@ -116,7 +126,8 @@ THINGS_TO_SAY = [
     (setting, 5),
     (off, 1),
     (on, 1),
-    (mundane, 1)
+    (mundane, 1),
+    (singleton, 1),
 ]
 
 
