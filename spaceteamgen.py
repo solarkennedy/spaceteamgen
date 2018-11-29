@@ -13,7 +13,6 @@ FILE = {
     'nouns': 'Nouns.txt',
     'prefixparts': 'PrefixParts.txt',
     'baseparts': 'BaseParts.txt',
-    'singletons': 'Singletons.txt',
 }
 
 
@@ -63,14 +62,6 @@ def setting():
     part = get_part()
     value = get_value()
     return "%s %s to %s!" % (setting_verb, part, value)
-
-
-def singleton():
-    """Returns a simple single line.
-    Like: Asteroid! (Everbody Flip)
-    """
-    singletons = load_file('singletons')
-    return random.choice(singletons)
 
 
 def get_noun():
@@ -127,7 +118,6 @@ THINGS_TO_SAY = [
     (off, 1),
     (on, 1),
     (mundane, 1),
-    (singleton, 1),
 ]
 
 

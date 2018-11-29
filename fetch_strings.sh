@@ -16,6 +16,4 @@ GenericMedalAchievements.txt
 
 for FILE in $FILES; do
   wget -c -O "$FILE" "http://www.sleepingbeastgames.com/spaceteam/TranslationTool/Strings/$FILE"
-  sleep 2
 done
-
